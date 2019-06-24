@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AGD Rate Data Add | $ Exchange Rate</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="shortcut icon" href="resources/img/profile.jpg" type="image/png">
+
+		<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container" style="padding-top: 56px;">
+			<div class="col-lg-6" style="margin-bottom: 15px">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-agddate"><i class="glyphicon glyphicon-calendar"></i></span>
+					<input type="text" class="form-control" placeholder="Date" aria-describedby="basic-agddate" id="date">
+				</div>
+				<button type="button" class="btn btn-primary" id="date-send" style="margin-top: 15px;">Send</button>
+			</div>
+
+			<div class="col-lg-6">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-agddate"><i class="glyphicon glyphicon-pencil"></i></span>
+					<input type="text" class="form-control" placeholder="Data" aria-describedby="basic-agddate" id="data">
+				</div>
+				<button type="button" class="btn btn-primary" id="data-send" style="margin-top: 15px;">Send</button>
+			</div>
+
+		</div>
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/popper.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script>
+			$('#date-send').on('click', function() {
+				$.post(
+					'agd-date',
+					{
+						'agd-date' : $('#date').val()
+					},
+					function success(data, status){
+						console.log(status);
+						console.log(data);
+					}
+				);
+			});
+
+			$('#data-send').on('click', function() {
+				$.post(
+					'agd-data',
+					{
+						'agd-data' : $('#data').val()
+					},
+					function success(data, status){
+						console.log(status);
+						console.log(data);
+					}
+				);
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Today Exchange Rate </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<link rel="shortcut icon" href="resources/img/profile.jpg" type="img/png">
+		<meta name='description' content='Api မှ data များသည် Website များမှ ယူထားခြင်းဖြစ်ပါသည်။ အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။'>
+		<meta name='title' content='Home | $ Exchange Rate'>
+		<meta name='og:title' content='Home | $ Exchange Rate'/>
+	    <meta property='og:image' content='resources/img/profile.jpg' />
+	    <meta property='og:description' content='Api မှ data များသည် Website များမှ ယူထားခြင်းဖြစ်ပါသည်။ အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။' />
+	    <meta name='og:author' content='Kyaw Htut'/>
+	    <meta name='og:image:alt' content='Kyaw Htut'/>
+	    <meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+	    <meta name='author' content='Kyaw Htut'>
+	    <meta name="theme-color" content="#719e40">
+	    
+	    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+
+		<style>
+			body {
+				margin: 50px 0 0;
+				padding: 0;
+				width: 100%;
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				text-align: center;
+				color: #aaa;
+				font-size: 18px;
+			}
+
+			h3 {
+				color: #719e40;
+				letter-spacing: -3px;
+				font-family: 'Lato', sans-serif;
+				font-size: 50px;
+				font-weight: 200;
+				margin-bottom: 0;
+			}
+
+			.btn-sm {
+				padding: 8px;
+				opacity: 1;
+				background-color: #719e40;
+				border-radius: 4px;
+				cursor: pointer;
+				margin-top: 8px;
+				color: white;
+				border: 1px solid transparent;
+			}
+
+			.btn-kbz {
+				background-color: #0054a6;
+			}
+
+			.btn-aya {
+				background-color: #aa2028;
+			}
+
+			.btn-cb {
+				background-color: #fdb93f;
+			}
+
+			.btn-mob {
+				background-color: #791218;
+			}
+
+			.btn-agd {
+				background-color: #59b84a;
+			}
+
+			.btn-uab {
+				background-color: #007538;
+			}
+
+			.btn-sm:hover {
+				opacity: 0.8;
+			}
+
+			.kbz {
+				color: #0054a6;
+			}
+
+			.aya {
+				color: #aa2028;
+			}
+
+			.cb {
+				color: #fdb93f;
+			}
+
+			.mob {
+				color: #791218;
+			}
+
+			.agd {
+				color: #59b84a;
+			}
+
+			.uab {
+				color: #007538;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+		    <h3>$ Exchange Rate</h3>
+    		<h5>Exchange rate api for Myanmar Bank.</h5>
+    		<button type="button" class="btn-sm btn-kbz">KBZ Bank</button>
+    		<button type="button" class="btn-sm btn-aya">Aya Bank</button>
+    		<button type="button" class="btn-sm btn-cb">CB Bank</button>
+    		<button type="button" class="btn-sm btn-mob">MOB Bank</button>
+    		<button type="button" class="btn-sm btn-agd">AGD Bank</button>
+    		<button type="button" class="btn-sm btn-uab">UAB Bank</button>
+    	    <p id="result"></p>
+    		<p>Api မှ data များသည် သက်ဆိုင်ရာ ဘဏ်များ၏ Website များမှ ယူထားခြင်းဖြစ်ပြီး အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။</p>
+            <p>Developed by Kyaw Htut <a href="mailto:info@kyawhtut.com" style="color: #719e40;">info@kyawhtut.com</a></p>
+		</div>
+		
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/popper.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script>
+			var kbz = '<p id="kbz">'+
+								'<h4 class="kbz">KBZ Bank Api example : </h4>' +
+								'<a class="kbz" href="https://kyawhtut.com/mmexchange/api/v1/kbz_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/kbz_bank</a>' +
+							'</p>';
+
+			var aya = '<p id="aya">' +
+								'<h4 class="aya">AYA Bank Api example : </h4>' +
+								'<a class="aya" href="https://kyawhtut.com/mmexchange/api/v1/aya_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/aya_bank</a>' +
+							'</p>';
+
+			var cb = '<p id="cb">' +
+							'<h4 class="cb">CB Bank Api example : </h4>' +
+							'<a class="cb" href="https://kyawhtut.com/mmexchange/api/v1/cb_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/cb_bank</a>' +
+						'</p>';
+
+			var mob = '<p id="mob">' +
+								'<h4 class="mob">MOB Bank Api example : </h4>' +
+								'<a class="mob" href="https://kyawhtut.com/mmexchange/api/v1/mob_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/mob_bank</a>' +
+							'</p>';
+		
+			var agd = '<p id="agd">' +
+								'<h4 class="agd">AGD Bank Api example : </h4>' +
+								'<a class="agd" href="https://kyawhtut.com/mmexchange/api/v1/agd_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/agd_bank</a>' +
+							'</p>';
+			var uab = '<p id="uab">' +
+								'<h4 class="uab">UAB Bank Api example : </h4>' +
+								'<a class="uab" href="https://kyawhtut.com/mmexchange/api/v1/uab_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/uab_bank</a>' +
+							'</p>';
+
+			$('.btn-kbz').on('click', function() {
+				$('#result').html(kbz);
+			});
+			$('.btn-aya').on('click', function() {
+				$('#result').html(aya);
+			});
+			$('.btn-cb').on('click', function() {
+				$('#result').html(cb);
+			});
+			$('.btn-mob').on('click', function() {
+				$('#result').html(mob);
+			});
+			$('.btn-agd').on('click', function() {
+				$('#result').html(agd);
+			});
+			$('.btn-uab').on('click', function() {
+				$('#result').html(uab);
+			});
+		</script>
+	</body>
+</html>

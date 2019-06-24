@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home | $ Exchange Rate</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<link rel="shortcut icon" href="resources/img/profile.jpg" type="img/png">
+		<meta name='description' content='Api မှ data များသည် Website များမှ ယူထားခြင်းဖြစ်ပါသည်။ အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။'>
+		<meta name='title' content='Home | $ Exchange Rate'>
+		<meta name='og:title' content='Home | $ Exchange Rate'/>
+	    <meta property='og:image' content='https://kyawhtut.com/public/img/mmexchange-screen-shoot.png' />
+	    <meta property='og:description' content='Api မှ data များသည် Website များမှ ယူထားခြင်းဖြစ်ပါသည်။ အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။' />
+	    <meta name='og:author' content='Kyaw Htut'/>
+	    <meta name='og:image:alt' content='Kyaw Htut'/>
+	    <meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+	    <meta name='author' content='Kyaw Htut'>
+	    <meta name="theme-color" content="#719e40">
+
+		<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+		<style>
+			body {
+				margin: 50px 0 0;
+				padding: 0;
+				width: 100%;
+				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+				text-align: center;
+				color: #aaa;
+				font-size: 18px;
+			}
+
+			h3 {
+				color: #719e40;
+				letter-spacing: -3px;
+				font-family: 'Lato', sans-serif;
+				font-size: 50px;
+				font-weight: 200;
+			}
+
+			.table>thead>tr>.currency {
+				background-color: #64bd53!important;
+				color: white;
+			}
+
+			.table>thead>tr>.buy {
+				background-color: #0155b8!important;
+				color: white;
+			}
+
+			.table>thead>tr>.sell {
+				background-color: #013c4e!important;
+				color: white;
+			}
+
+			.table>thead>tr>th {
+				text-align: center;
+				border-bottom: none;
+			}
+
+			.table-striped>tbody>tr {
+				color: #333333;
+				background-color: #f2f2f2!important;
+			}
+
+			.table-striped>tbody>tr:nth-of-type(odd) {
+				background-color: #ffffff!important;
+			}
+
+			.card-title {
+				text-align: left;
+				font-size: 22px;
+				font-weight: 200;
+			}
+
+			.kbz {
+				color: #0054a6;
+			}
+
+			.aya {
+				color: #aa2028;
+			}
+
+			.cb {
+				color: #fdb93f;
+			}
+
+			.mob {
+				color: #791218;
+			}
+
+			.agd {
+				color: #59b84a;
+			}
+
+			.uab {
+				color: #007538;
+			}
+
+			.panel-body {
+				text-align: right;
+				padding: 0px;
+				padding-top: 8px;
+				padding-right: 15px;
+			}
+
+			.logo {
+				height: 20px;
+				margin-right: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h3>$ Exchange Rate</h3>
+			<div class="row">
+<?php
+
+	$class = array(
+		"KBZ Bank" => "kbz",
+		"AYA Bank" => "aya",
+		"CB Bank" => "cb",
+		"MOB Bank" => "mob",
+		"AGD Bank" => "agd",
+		"UAB Bank" => "uab"
+	);
+	foreach ($exchange as $row_key => $row) {
+		$bank_name = $row['bank_info']['bank_name'];
+		$bank_logo = $row['bank_info']['bank_logo'];
+		$exchange_rate = $row['exchange_data'];
+		$exchange_time = $row['exchange_time'];
+?>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="card-title <?= htmlspecialchars($class[$bank_name]); ?>">
+								<img src="<?= htmlspecialchars($bank_logo); ?>" class="logo"><b><?= htmlspecialchars($bank_name); ?></b>
+							</h4>
+						</div>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th class="currency">Currency</th>
+									<th class="buy">Buy</th>
+									<th class="sell">Sell</th>
+								</tr>
+							</thead>
+							<tbody>
+<?php
+	foreach ($exchange_rate as $col_key => $col_value) {
+		$exchange_currency = $col_value['exchange_currency'];
+		$exchange_rate_buy = $col_value['exchange_rate_buy'];
+		$exchange_rate_sell = $col_value['exchange_rate_sell'];
+		$logo = $col_value['logo_url']; ?>
+								<tr>
+									<td align="left">
+										<!--<img src="<?= htmlspecialchars($logo); ?>" width="35" height="35" style="margin: 3px 8px 0px 0px;">--><?= htmlspecialchars($exchange_currency); ?>
+									</td>
+									<td style="vertical-align: middle">
+										<?= htmlspecialchars($exchange_rate_buy); ?>
+									</td>
+									<td style="vertical-align: middle">
+										<?= htmlspecialchars($exchange_rate_sell); ?>
+									</td>
+								</tr>
+<?php
+	}
+?>
+							</tbody>
+						</table>
+<?php
+	if($exchange_time != null) { ?>
+						<div class="panel-body">
+							<span><?= htmlspecialchars($exchange_time); ?></span>
+						</div>
+<?php
+	}
+?>
+					</div>
+				</div>
+<?php
+	}
+?>
+			</div>	
+			<p style="color: #a97c14;">Data များသည် သက်ဆိုင်ရာ ဘဏ်များ ၏ Website များမှ ယူထားခြင်းဖြစ်ပြီး အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။</p>
+    		<p>Developed by Kyaw Htut <a href="mailto:info@kyawhtut.com" style="color: #719e40;">info@kyawhtut.com</a></p>
+			<p style="text-align: right;"><a href="api" style="color: #719e40">Api For Developer</a></p>
+		</div>
+
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/popper.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+	</body>
+</html>

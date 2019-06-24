@@ -1,0 +1,6 @@
+[2018-11-01 09:22:39]  mm exchange .INFO: Home page request [] []
+[2018-11-01 13:42:44]  mm exchange .INFO: Home page request [] []
+[2018-11-01 13:42:44]  mm exchange .INFO: Home page request [] []
+[2018-11-01 13:43:54]  mm exchange .INFO: Home page request [] []
+[2018-11-01 13:44:30]  mm exchange .INFO: Home page request [] []
+[2018-11-01 16:06:29]  mm exchange .ERROR: Unknow url /mmexchange/resources/fonts/glyphicons-halflings-regular.eot {"Request application ":"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; MASBJS)","Request client ip ":null,"Request client host ip ":"46.242.126.161"} []
