@@ -5,27 +5,24 @@
 	class CBExchangeRateControllers extends Controllers {
 
 		public function getCBExchangeDate() {
-			$html = file_get_html('https://www.cbbank.com.mm/admin/api.xml');
+			$html = file_get_html('https://www.cbbank.com.mm/exchange_rate.aspx');
 			$data = array();
 			$datetime = "";
-			foreach ($html->find('cbrate') as $row) {
-				$tmp = array();
-				foreach ($row->find('date') as $col) {
-					$datetime = $col->plaintext . ' ';
-				}
-				foreach ($row->find('time') as $col) {
-					$datetime .= $col->plaintext;
-				}
-				foreach ($row->find('currency') as $col) {
-					$tmp[] = $col->plaintext;
-				}
-				foreach ($row->find('buy') as $col) {
-					$tmp[] = $col->plaintext;
-				}
-				foreach ($row->find('sell') as $col) {
-					$tmp[] = $col->plaintext;
-				}
-				$data[] = $tmp;
+			$table = $html->find('table')[0];
+			$tr = $table->find('tr');
+			$index = 0;
+			foreach($tr as $row) {
+			    if($index != 0 && $index != 6) {
+			        $td = $row->find('td');
+			        $tmp = array();
+			        foreach($td as $value) {
+			            $tmp[] = $value->plaintext;
+			        }
+			        $data[] = $tmp;
+			    } else if($index == 6) {
+			        $datetime = $row->plaintext;
+			    }
+			    $index += 1;
 			}
 			$this->insertExchangeRate(
 				$data,
