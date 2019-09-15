@@ -1,0 +1,95 @@
+.form-image-list {
+  display: inline-block;
+  height: 150px;
+}
+.form-image {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form-image-wide {
+  width: 270px;
+}
+.form-image-list .image-add-continer,
+.form-image-list .image-preview-container {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 4px 4px;
+  overflow: hidden;
+}
+.image-add-continer .image-add {
+  display: list-item;
+  width: 100%;
+  height: 100%;
+  padding: 0px 60px;
+  font-size: 18pt;
+  line-height: 142px;
+  background-color: rgba(0, 0, 0, 0.2);
+  text-align: center;
+  cursor: pointer;
+}
+.image-preview-container .form-image-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.image-delete-container {
+  position: relative;
+  display: block;
+  width: 148px;
+  height: 40px;
+  margin-left: -4px;
+  margin-top: -36px;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: right;
+  padding: 6px 6px;
+  border-radius: 0 0 4px 4px;
+}
+.form-image-wide .image-delete-container {
+  width: 268px;
+}
+.image-delete-container a {
+  color: #fff;
+  font-size: 14pt;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-family: 'Glyphicons Halflings'!important;
+}
+
+.image-delete i {
+  color: white;
+}
+
+.model-upload .row {
+  margin-top: 15px;
+  text-align: center;
+  padding: 0 15px;
+}
+.model-upload h4 {
+  padding: 15px 15px;
+  color: #68757E;
+}
+.model-upload .glyphicon {
+  font-size: 5em;
+  color: #9CA3A9;
+}
+.model-upload i {
+  font-size: 3em;
+  color: #9CA3A9; 
+}
+.model-upload .h4 {
+  font-size: 18px;
+}
+.model-upload .upload-input {
+  display: none;
+}

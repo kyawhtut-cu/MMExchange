@@ -68,7 +68,7 @@
 			$query = "SELECT * FROM bank_table WHERE id = " . $bank_id;
 			$result = $this->ci->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
 			$bank_info = $result[0];
-			unset($bank_info['id']);
+// 			unset($bank_info['id']);
 
 			$data = array();
 			$data['bank_info'] = $bank_info;

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Branch Input</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="shortcut icon" href="<?php echo $baseUrl; ?>/resources/img/mycurrency.png" type="img/png">
+		<meta name='description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။'>
+		<meta name='title' content='ဘဏ်ခွဲ | $ Exchange Rate'>
+		<meta name='og:title' content='ဘဏ်ခွဲ | $ Exchange Rate'/>
+		<meta property='og:image' content='https://kyawhtut.com/public/img/mmexchange-screen-shoot.png' />
+		<meta property='og:description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။' />
+		<meta name='og:author' content='Kyaw Htut'/>
+		<meta name='og:image:alt' content='Kyaw Htut'/>
+		<meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+		<meta name='author' content='Kyaw Htut'>
+		<meta name="theme-color" content="#719e40">
+
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/4.3.1/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/dataTable.bootstrap.4.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/datatables.css">
+		<link rel="stylesheet" href="<?php echo $baseUrl; ?>/resources/css/bootstrap-select.min.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/style.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/font-awesome.css">
+	</head>
+	<body>	
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<a class="navbar-brand" href="<?= $baseUrl; ?>/branch-input">My Currency</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<div class="navbar-nav mr-auto mt-2 mt-lg-0"></div>
+				<ul class="navbar-nav my-2 my-lg-0">
+					<li class="nav-item"><a href="http://bit.ly/kh-mycurrency">Apk Download</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container pt-5 mt-4">
+			<div class="pb-3">
+				<h2 class="text-left subTitle">တစ်ရက်စာ ငွေကြေးလဲလှယ်နှုန်း</h2>
+			</div>
+			<div class="row pb-3">
+				<div class="col-sm-12">
+					<input id="datepicker" />
+				</div>
+			</div>
+			<div class="row pb-3">
+				<div class="col-sm-10">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label float-left text-left" for="bankDropDown">ဘဏ်အမျိုးအစား</label>
+						<div class="col-sm-10"> 
+							<select class="selectpicker form-control" id="bankDropDown" name="bank_id" data-live-search="true">
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<button type="button" id="btnFilter" class="col-sm-12 btn btn-outline-success float-right">Filter</button>
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table id="example" class="table table-hover w-100">
+			        <thead>
+			            <tr>
+			                <th>ဘဏ် အမည်</th>
+			                <th>ငွေကြေး</th>
+			                <th>အဝယ်</th>
+			                <th>အရောင်း</th>
+			                <th>အချိန်</th>
+			                <th id="list-head-actions"><a class="btn btn-success btn-block list-action" href="<?= $baseUrl; ?>/daily-exchange/add"><i class="fa fa-plus"></i> Add</a></th>
+			            </tr>
+			        </thead>
+	    		</table>								
+			</div>
+			<div class="footer">
+				<div class="col-md-12 text-center">
+					<p>Developed by © <a href="https://kyawhtut.com/" target="_blank">Kyaw Htut</a></p>
+				</div>
+			</div>
+		</div> 
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/popper.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/4.3.1/bootstrap.min.js"></script>
+		<script src="<?php echo $baseUrl; ?>/resources/js/bootstrap-select.min.js"></script>
+		<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.dataTables.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/dataTable.bootstrap4.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var date = new Date();
+				var today = date.getFullYear() + '-' + ('0'+(date.getMonth()+1)).slice(-2) + '-' + ('0'+date.getDate()).slice(-2);
+				var flag = {
+					'SGD' : 'sg',
+					'USD' : "us",
+					'EUR' : 'gb',
+					'EURO' : 'gb',
+					'THB' : 'th',
+					'MYR' : 'my'
+				};
+				$('#datepicker').datepicker({
+					change: function (e) {
+						console.log($('#datepicker').val());
+					},
+					footer: false, 
+					modal: false, 
+					header: false,
+					size: 'large',
+					showOtherMonths: true,
+					format: 'yyyy-mm-dd',
+					value:  today,
+					minDate: '2019-07-08',
+					maxDate: today
+				});
+				$('.gj-datepicker').addClass('float-right');
+				function exchangeCurrencyRenderer(route) {
+					return function(d, type, row) {
+						var img = `<img src="https://www.countryflags.io/${flag[row.exchange_currency]}/flat/24.png" alt="" class="mr-2"/>${row.exchange_currency}`;
+						return img;
+					}
+				}
+
+				$.get("<?php echo $baseUrl; ?>/api/v2/bank_table", function(data) {
+					$("#bankDropDown").empty();
+					$("#bankDropDown").append("<option value='-1'>ဘဏ်အားလုံး</option>");
+					for (var index in data.bank_table) {
+						$("#bankDropDown").append("<option value='" + data.bank_table[index].id + "'>" + data.bank_table[index].bank_name + "</option>");
+					}
+					$("#bankDropDown").selectpicker('refresh');
+				})
+
+				function dataTableActionRenderer() {
+					return function(d, type, row) {
+						var btnEdit = '<a class="btn btn-primary btn-sm list-action mx-1 my-1" href="<?= $baseUrl; ?>/branch-input/edit/' + row.id + '">Edit</a>';
+						var btnDelete = '<a class="btn btn-danger btn-sm list-action" data-toggle="modal" data-target="#dialogDeleteConfirm" data-loading-text="Deleting ..." data-id="' + row.id + '" role="button" href="api/deleteBank/' + row.id + '">Delete</a>';
+						var html = btnDelete + btnEdit;
+						return html;
+					}
+				}
+
+				var status = 1;
+				var bankId = -1;
+
+				function getFilter() {
+					var bankFilter = "eq";
+					if(bankId == -1) {
+						bankFilter = "neq";
+					}
+					return `exchange_date,eq,${today},and,bank_id,${bankFilter},${bankId}`;
+				}
+
+				var table = $('#example').on('error.dt', function (e, settings, techNote, message) {
+					console.log( 'DataTables Error: ', message );
+					alert('Read data error!');
+				}).DataTable({
+					"lengthMenu": [[5, 10, 15, 20, 25, 50, -1], [5, 10, 15, 20, 25, 50, "အားလုံး"]],
+					"async": false,
+					"ajax": {
+						url : "<?= $baseUrl; ?>/api/v2/exchange_daily_rate",
+						data: function(d){
+							d.filter = getFilter(),
+							d.api_key = "~reo?~Lpz!~",
+							d.join = "inner,bank_table,bank_id,eq,bank_table.id",
+							d.columns= "exchange_daily_rate.*,bank_table.bank_name"
+						},
+						dataSrc : "exchange_daily_rate"
+					},
+					"columns": [
+						{
+							"data" : "bank_name"
+						},
+						{
+							"data" : "exchange_currency"
+						},
+						{
+							"data" : "exchange_buy"
+						},
+						{
+							"data" : "exchange_sell"
+						},
+						{
+							"data" : "bank_update_time"
+						},
+						{
+							"data": "action"
+						}
+					],
+					"columnDefs": [
+						{
+							targets: 1,
+							render: exchangeCurrencyRenderer()
+						},
+						{
+							targets : 5,
+							orderable : false,
+							render: dataTableActionRenderer()
+						}
+					]
+				// 	fnCreatedRow: function(nRow, aData, index) {
+				// 		$.get("<?= $baseUrl; ?>/api/v2/bank_table/"+aData.bank_id, function(d) {
+				// 			$('td:eq(0)', nRow).html(
+				// 				d.bank_table[0].bank_name+""
+				// 			);
+				// 		})
+				// 	}
+				});
+
+				$('#btnFilter').on('click', function(e) {
+					today = $('#datepicker').val();
+					bankId= $('#bankDropDown').val();
+					table.ajax.reload();
+				});
+			});
+		</script>
+	</body>
+</html>

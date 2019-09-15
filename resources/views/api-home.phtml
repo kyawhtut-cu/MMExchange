@@ -77,6 +77,10 @@
 				opacity: 0.8;
 			}
 
+			.btn-exchange {
+				background-color: #33475e;
+			}
+
 			.kbz {
 				color: #0054a6;
 			}
@@ -100,6 +104,9 @@
 			.uab {
 				color: #007538;
 			}
+			.exchange {
+				color: #33475e;
+			}
 		</style>
 	</head>
 	<body>
@@ -112,9 +119,10 @@
     		<button type="button" class="btn-sm btn-mob">MOB Bank</button>
     		<button type="button" class="btn-sm btn-agd">AGD Bank</button>
     		<button type="button" class="btn-sm btn-uab">UAB Bank</button>
+    		<button type="button" class="btn-sm btn-exchange">Exchange Converter</button>
     	    <p id="result"></p>
     		<p>Api မှ data များသည် သက်ဆိုင်ရာ ဘဏ်များ၏ Website များမှ ယူထားခြင်းဖြစ်ပြီး အခမဲ့အသုံးပြုလို့ရအောင်လုပ်ပေးထားခြင်းဖြစ်ပါသည်။</p>
-            <p>Developed by Kyaw Htut <a href="mailto:info@kyawhtut.com" style="color: #719e40;">info@kyawhtut.com</a></p>
+            <p>Developed by Kyaw Htut <a href="mailto:developer.kyawhtut@gmail.com" style="color: #719e40;">developer.kyawhtut@gmail.com</a></p>
 		</div>
 		
 		<script src="resources/js/jquery.js"></script>
@@ -149,6 +157,19 @@
 								'<h4 class="uab">UAB Bank Api example : </h4>' +
 								'<a class="uab" href="https://kyawhtut.com/mmexchange/api/v1/uab_bank" target="_blank">https://kyawhtut.com/mmexchange/api/v1/uab_bank</a>' +
 							'</p>';
+			var exchange = '<p id="exchange"' +
+								'<h4 class="exchange">Exchange Converter Api Example : </h4>' +
+								'<pre style="text-align: left;">Request - <a href="http://localhost:8888/mmexchange/api/v2/exchange?amount=4000.7&type=1&exchangeCurrencyType=USD&bank=1">http://localhost:8888/mmexchange/api/v2/exchange?amount=4000.7&type=1&exchangeCurrencyType=USD&bank=1</a><br><br>Response - ' +
+								JSON.stringify({
+									"bankName": "KBZ Bank",
+									"exchangeType": "Buy",
+									"exchangeCurrency": "USD",
+									"amount": "4000.7",
+									"exchangeAmount": 6033055.6
+									}, null, 4) +
+								'<br><br>Type - 1 or 2 (Buy or Sell)<br>Bank - 1 to 6<br>Exchange Currency - USD or EUR or EURO or SGD or THB or MYR' +
+								'</pre>'
+							'</p>';
 
 			$('.btn-kbz').on('click', function() {
 				$('#result').html(kbz);
@@ -168,6 +189,9 @@
 			$('.btn-uab').on('click', function() {
 				$('#result').html(uab);
 			});
+			$('.btn-exchange').on('click', function() {
+				$('#result').html(exchange);
+			})
 		</script>
 	</body>
 </html>

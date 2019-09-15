@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Exchange Conver | $ Exchange Rate</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="shortcut icon" href="<?php echo $baseUrl; ?>/resources/img/mycurrency.png" type="img/png">
+		<meta name='description' content='ဒေါ်လာစျေး ဝယ်/ရောင်း စျေး ပြောင်းလဲရန်။'>
+		<meta name='title' content='Exchange Conver | $ Exchange Rate'>
+		<meta name='og:title' content='Exchange Conver | $ Exchange Rate'/>
+		<meta property='og:image' content='https://kyawhtut.com/public/img/mmexchange-screen-shoot.png' />
+		<meta property='og:description' content='ဒေါ်လာစျေး ဝယ်/ရောင်း စျေး ပြောင်းလဲရန်။' />
+		<meta name='og:author' content='Kyaw Htut'/>
+		<meta name='og:image:alt' content='Kyaw Htut'/>
+		<meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+		<meta name='author' content='Kyaw Htut'>
+		<meta name="theme-color" content="#719e40">
+
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/4.3.1/bootstrap.min.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/dataTable.bootstrap.4.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/datatables.css">
+		<link rel="stylesheet" href="<?php echo $baseUrl; ?>/resources/css/bootstrap-select.min.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/style.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/font-awesome.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/radio-style.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<a class="navbar-brand" href="<?= $baseUrl; ?>">My Currency</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<div class="navbar-nav mr-auto mt-2 mt-lg-0"></div>
+				<ul class="navbar-nav my-2 my-lg-0">
+					<li class="nav-item"><a href="http://bit.ly/kh-mycurrency">Apk Download</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container pt-5 mt-4 pb-5">
+			<div class="col-sm-12">
+				<div class="col-sm-12 toggle">
+					<input type="radio" name="type" value="1" id="buy" checked="checked" />
+					<label for="buy">Buy</label>
+					<input type="radio" name="type" value="2" id="sell" />
+					<label for="sell">Sell</label>
+				</div>
+			</div>
+			<div class="row pb-3 mt-3">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label class="col-sm-12 col-form-label float-left text-left" for="bankDropDown">ဘဏ်အမျိုးအစား</label>
+						<div class="col-sm-12"> 
+							<select class="selectpicker mt-2 form-control" id="bankDropDown" name="bank_id" data-live-search="false">
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label class="col-sm-12 col-form-label float-left text-left" for="exchangeCurrency">ငွေကြေးအမျိုးအစား</label>
+						<div class="col-sm-12"> 
+							<select class="selectpicker mt-2 form-control" id="exchangeCurrency" name="exchange_currency" data-live-search="false">
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label class="col-sm-12 col-form-label float-left text-left mb-2" for="amount">ငွေပမာဏ</label>
+						<div class="col-sm-12"> 
+							<input class="form-control col-sm-12" type="number" id="amount" name="amount" placeholder="ငွေပမာဏ" maxlength="255" required autofocus>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3 float-right">
+				<button type="button" id="btn-convert" class="btn btn-convert col-sm-12" disabled>Convert</button>
+			</div>
+			<div class="clearfix"></div>
+			<div class="col-sm-12" id='result'></div>
+		</div>
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/popper.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/4.3.1/bootstrap.min.js"></script>
+		<script src="<?php echo $baseUrl; ?>/resources/js/bootstrap-select.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.dataTables.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/dataTable.bootstrap4.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.get("<?php echo $baseUrl; ?>/api/v2/bank_table", function(data) {
+					$("#bankDropDown").empty();
+					$("#bankDropDown").append("<option value='-1'>ဘဏ်အားလုံး</option>");
+					for (var index in data.bank_table) {
+						$("#bankDropDown").append("<option value='" + data.bank_table[index].id + "'>" + data.bank_table[index].bank_name + "</option>");
+					}
+					$("#bankDropDown").selectpicker('refresh');
+				});
+
+				$('#bankDropDown').change(function() {
+					$("#exchangeCurrency").empty();
+					$("#exchangeCurrency").append("<option value='-1'>ငွေကြေးအမျိုးအစား</option>");
+					$('#btn-convert').prop(
+						"disabled", (
+							$('#amount').val() == 0 || 
+							$('#amount').val() == '' || 
+							$('#bankDropDown').val() == '-1' || 
+							$('#exchangeCurrency').val() == '-1'
+							)
+					);
+					$.get('<?= $baseUrl; ?>/convert/exchangeCurrency?bank=' + this.value, function(data) {
+						for(var index in data) {
+							$('#exchangeCurrency').append("<option value='" + data[index] + "'>" + data[index] + "</option>");
+						}
+						$("#exchangeCurrency").selectpicker('refresh');
+					})
+				});
+
+				$('#exchangeCurrency').change(function() {
+					$('#btn-convert').prop(
+						"disabled", (
+							$('#amount').val() == 0 || 
+							$('#amount').val() == '' || 
+							$('#bankDropDown').val() == '-1' || 
+							$('#exchangeCurrency').val() == '-1'
+							)
+					);
+				})
+
+				$('#amount').bind('keyup mouseup', function () {
+					$('#btn-convert').prop(
+						"disabled", (
+							$('#amount').val() == 0 || 
+							$('#amount').val() == '' || 
+							$('#bankDropDown').val() == '-1' || 
+							$('#exchangeCurrency').val() == '-1'
+							)
+					);
+				});
+
+				$('#btn-convert').on('click', function() {
+					$.get(
+						'<?= $baseUrl; ?>/convert/convert?amount=' + $('#amount').val() + '&type=' + $("input[name='type']:checked").val() + '&exchangeType=' + $('#exchangeCurrency').val() + '&bank=' + $('#bankDropDown').val(), function(data) {
+						$('#result').empty();
+						$('#result').append(data);
+					});
+				})
+			});
+		</script>
+	</body>
+</html>

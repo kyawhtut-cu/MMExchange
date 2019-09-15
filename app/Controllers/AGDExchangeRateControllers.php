@@ -4,6 +4,8 @@
 	class AGDExchangeRateControllers extends Controllers {
 	    
 	    public function getAGDExchangeDate() {
+	        $html = file_get_html('https://www.agdbank.com/');
+	        $date = $html->find('div.date-update')[0]->plaintext;
 			$html = file_get_html('https://ccapi.agdbank.com:8080/ExchangeRate/index?callback=?')->plaintext;
 			$html = str_replace("?(", "", $html);
 			$html = str_replace(");", "", $html);
@@ -49,23 +51,12 @@
 				}
 			}
 			$this->insertExchangeRate($data, $this->bank_id[$this->agd_bank]);
-			return "";
+			return array(
+			    "time" => $date,
+			    "data" => $data
+			);
 		}
-
-		public function insertAGDdata($agd_data) {
-			$data = array();
-			$tmp = explode(",", $agd_data);
-			foreach ($tmp as $row_index => $row) {
-				$row_value = explode("#", $row);
-				$tmp_arr = array();
-				foreach ($row_value as $col_index => $col) {
-					$tmp_arr[] = $col;
-				}
-				$data[$row_index] = $tmp_arr;
-			}
-
-			$this->insertExchangeRate($data, $this->bank_id[$this->agd_bank]);
-		}
+		
 		private function insertExchangeRate($data, $bank_id) {
 			foreach ($data as $key => $row) {
 				$query = "SELECT * FROM exchange_rate WHERE bank_id = " . $bank_id . " AND exchange_currency = '" . $row[0] . "'";

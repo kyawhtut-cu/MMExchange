@@ -28,7 +28,10 @@
 				$data,
 				$this->bank_id[$this->cb_bank]
 			);
-			return $datetime;
+			return array(
+			    "time" => trim($datetime),
+			    "data" => $data
+            );
 		}
 
 		private function insertExchangeRate($data, $bank_id) {

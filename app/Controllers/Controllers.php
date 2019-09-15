@@ -15,6 +15,7 @@
 		protected $mob_bank = "mob_bank";
 		protected $agd_bank = "agd_bank";
 		protected $uab_bank = "uab_bank";
+		protected $mab_bank = "mab_bank";
 
 		protected $bank_id = array(
 			"kbz_bank" => 1,
@@ -23,6 +24,7 @@
 			"mob_bank" => 4,
 			"agd_bank" => 5,
 			"uab_bank" => 6
+			/*"mab_bank" => 7*/
 		);
 
 		public function __construct(ContainerInterface $ci) {

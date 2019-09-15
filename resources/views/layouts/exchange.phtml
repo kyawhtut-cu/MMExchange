@@ -4,13 +4,14 @@
 		<title>Today Exchange Rate </title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="shortcut icon" href="http://localhost:8000/resources/img/ucstgo-logo.png" type="image/png">
+		<link rel="stylesheet" href="resources/css/bootstrap.min.css">
+		<link href="https://www.jqueryscript.net/demo/jQuery-Plugin-For-Easily-Readable-JSON-Data-Viewer/json-viewer/jquery.json-viewer.css" rel="stylesheet" type="text/css" />
 		<style>
 			body {
 				margin: 50px 0 0;
 				padding: 0;
 				width: 100%;
 				font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-				text-align: center;
 				color: #aaa;
 				font-size: 18px;
 			}
@@ -23,10 +24,108 @@
 				font-weight: 200;
 				margin-bottom: 0;
 			}
+			
+			.btn-sm {
+				padding: 8px;
+				opacity: 1;
+				background-color: #719e40;
+				border-radius: 4px;
+				cursor: pointer;
+				margin-top: 8px;
+				color: white;
+				border: 1px solid transparent;
+			}
+
+			.btn-kbz {
+				background-color: #0054a6;
+			}
+
+			.btn-aya {
+				background-color: #aa2028;
+			}
+
+			.btn-cb {
+				background-color: #fdb93f;
+			}
+
+			.btn-mob {
+				background-color: #791218;
+			}
+
+			.btn-agd {
+				background-color: #59b84a;
+			}
+
+			.btn-uab {
+				background-color: #007538;
+			}
+
+			.btn-sm:hover {
+				opacity: 0.8;
+			}
 		</style>
 	</head>
 	<body>
-		<h3>$ Exchange Rate</h3>
-		<h5>Exchange rate successful for today.</h5>
+		<div class="container">
+		    <div style="text-align: center;">
+    		    <h3>$ Exchange Rate</h3>
+    		    <h5>Exchange rate successful for today.</h5>
+        		<button type="button" class="btn-sm btn-kbz">KBZ Bank</button>
+        		<button type="button" class="btn-sm btn-aya">Aya Bank</button>
+        		<button type="button" class="btn-sm btn-cb">CB Bank</button>
+        		<button type="button" class="btn-sm btn-mob">MOB Bank</button>
+        		<button type="button" class="btn-sm btn-agd">AGD Bank</button>
+        		<button type="button" class="btn-sm btn-uab">UAB Bank</button>
+        		<button type="button" class="btn-sm btn-danger">Clear</button>
+        	</div>
+        	<p id="log"></p>
+    	    <pre id="result" style="padding-left: 16px; margin-top: 16px;"></pre>
+		</div>
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/popper.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script src="resources/js/json-viewer.js"></script>
+		<script>
+		    var log = "";
+		    $('.btn-danger').on('click', function() {
+		        log = "";
+                $('#log').empty();
+		        showJson([]);
+		    });
+		    $('.btn-kbz').on('click', function() {
+				loadExchangeData('kbz');
+			});
+			$('.btn-aya').on('click', function() {
+				loadExchangeData('aya');
+			});
+			$('.btn-cb').on('click', function() {
+				loadExchangeData('cb');
+			});
+			$('.btn-mob').on('click', function() {
+				loadExchangeData('mob');
+			});
+			$('.btn-agd').on('click', function() {
+				loadExchangeData('agd');
+			});
+			$('.btn-uab').on('click', function() {
+				loadExchangeData('uab');
+			});
+			
+			function loadExchangeData(bank) {
+			    log += "Loading " + bank + "...<br>";
+			    $('#log').empty();
+			    $('#log').append(log);
+			    $.get("<?php echo $baseUrl; ?>/exchange-daily/" + bank, function(data) {
+			        log += "Loading completed " + bank + "<br>";
+			        $('#log').empty();
+			        $('#log').append(log);
+			        showJson(data);
+    			})
+			}
+			
+			function showJson(result) {
+			    $('#result').json_viewer(result);
+			}
+		</script>
 	</body>
 </html>

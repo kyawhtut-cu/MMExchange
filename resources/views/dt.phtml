@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>D Table</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="shortcut icon" href="<?php echo $baseUrl; ?>/resources/img/profile.jpg" type="img/png">
+		<meta name='description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။'>
+		<meta name='title' content='ဘဏ်ခွဲ | $ Exchange Rate'>
+		<meta name='og:title' content='ဘဏ်ခွဲ | $ Exchange Rate'/>
+		<meta property='og:image' content='https://kyawhtut.com/public/img/mmexchange-screen-shoot.png' />
+		<meta property='og:description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။' />
+		<meta name='og:author' content='Kyaw Htut'/>
+		<meta name='og:image:alt' content='Kyaw Htut'/>
+		<meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+		<meta name='author' content='Kyaw Htut'>
+		<meta name="theme-color" content="#719e40">
+		<link rel="stylesheet" href="<?php echo $baseUrl; ?>/resources/css/4.3.1/bootstrap.min.css">
+		<link rel="stylesheet" href="<?php echo $baseUrl; ?>/resources/css/font-awesome.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css">
+	</head>
+	<body>
+        <table id="example" class="mdl-data-table" style="width:100%">
+		        <thead>
+		            <tr>
+		                <th>Bank Type</th>
+		                <th>Branch Name</th>
+		                <th>Description</th>
+		                <th>Bank Photo</th>
+		                <th id="list-head-actions"><a class="btn btn-success btn-sm list-action" href="add">Add</a></th>
+		            </tr>
+		        </thead>
+	        	<tfoot>
+	            <tr>
+	                <th>Bank Type</th>
+					<th>Branch Name</th>
+					<th>Description</th>
+					<th></th>
+	            </tr>
+	        </tfoot>
+    </table>
+<script src="<?php echo $baseUrl; ?>/resources/js/jquery.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
+<script src="<?php echo $baseUrl; ?>/resources/js/popper.min.js"></script>
+		<script src="<?php echo $baseUrl; ?>/resources/js/4.3.1/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+function dataTableImageRenderer(route) {
+	return function(d, type, row) {
+		var imgUrl = row.bank_branch_image.replace(".",route);
+		console.log(imgUrl);
+		var img = `<img src="${imgUrl}" width="35" height="35"/>`;
+		return img;
+	}
+}
+
+function dataTableActionRenderer() {
+	return function(d, type, row) {
+		var btnEdit = '<a class="btn btn-default btn-sm list-action" href="' + row.id + '">Edit</a>';
+		var btnDelete = '<a class="btn btn-danger btn-sm list-action" href="' + row.id + '">Delete</a>';
+		var html = btnEdit + btnDelete;
+		return html;
+	}
+}
+
+var table = $('#example').on('error.dt', function (e, settings, techNote, message) {
+         console.log( 'DataTables Error: ', message );
+         alert('Read data error!');
+     }).DataTable({
+       "autoWidth": false,
+       "ajax": { "url": "<?php echo $baseUrl; ?>/api/v2/available_bank_location" },
+       "columns": [
+           { "data": "bank_type" },
+           { "data": "bank_branch_name" },
+           { "data": "bank_description" },
+           { "data": "bank_branch_image" },
+           { "data": "action"}
+       ],
+       "columnDefs": [
+       	 { targets: 3, "orderable": false , render: dataTableImageRenderer('<?php echo $baseUrl; ?>')},
+         { targets: 4, "orderable": false , render: dataTableActionRenderer()}
+       ]
+   });
+
+    // $('#example').DataTable( {
+    //     columnDefs: [
+    //         {
+    //             targets: [ 0, 1, 2 ],
+    //             className: 'mdl-data-table__cell--non-numeric'
+    //         }
+    //     ]
+    // } );
+} );
+</script>
+</body>
+</html>

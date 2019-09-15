@@ -5,73 +5,42 @@
 	class KBZExchangeRateControllers extends Controllers {
 
 		public function getKBZExchangeDate() {
-			$time = "Date - 23.06.2019";
+		    $data = array();
 			$html = file_get_html('https://www.kbzbank.com/en/');
-			$data = array();
-			$index = 0;
-			$table = $html->find('div[class=example]')[0]->find('table')[0];
-			$usdData = array();
-			$euroData = array();
-			$sgdData = array();
-			$thbData = array();
-			$trIndex = 0;
-            foreach ($table->find('tr') as $value) {
-                $tdIndex = 0;
-                foreach($value->find('td') as $td) {
-                    if($trIndex == 1) {
-                        //todo exchange time
-                        $time = $td->plaintext;
-                    } else if($trIndex == 2) {
-                        //todo usd and euro title
-                        if($tdIndex == 0) {
-                            //todo usd title
-                            $usdData[] = $td->plaintext;
-                        } else {
-                            $euroData[] = $td->plaintext;
-                        }
-                    } else if($trIndex == 5) {
-                        //todo sgd and thb title
-                        if($tdIndex == 0) {
-                            $sgdData[] = $td->plaintext;
-                        } else {
-                            $thbData[] = $td->plaintext;
-                        }
-                    } else if($trIndex == 3 || $trIndex == 4) {
-                        //todo exchange value buy and sell for usd and euro
-                        if($tdIndex == 0) {
-                            $value = str_replace("Buy - ","",$td->plaintext);
-                            $value = str_replace("Sell - ","",$value);
-                            $usdData[] = $value;
-                        } else {
-                            $value = str_replace("Buy - ","",$td->plaintext);
-                            $value = str_replace("Sell - ","",$value);
-                            $euroData[] = $value;
-                        }
-                    } else if($trIndex == 6 || $trIndex == 7) {
-                        //todo exchange value buy and sell for sgd and thb
-                        if($tdIndex == 0) {
-                            $value = str_replace("Buy - ","",$td->plaintext);
-                            $value = str_replace("Sell - ","",$value);
-                            $sgdData[] = $value;
-                        } else {
-                            $value = str_replace("Buy - ","",$td->plaintext);
-                            $value = str_replace("Sell - ","",$value);
-                            $thbData[] = $value;
-                        }
-                    }
-                    $tdIndex += 1;
-                }
-                $trIndex += 1;
+			$time = $html->find('div[class=wp-block-kadence-column inner-column-1 kadence-column_6e8702-29]')[0]->find('p')[1]->plaintext;
+			foreach($html->find('div[class=kt-row-column-wrap kt-has-4-columns kt-gutter-skinny kt-v-gutter-default kt-row-valign-top kt-row-layout-equal kt-tab-layout-inherit kt-m-colapse-left-to-right kt-mobile-layout-two-grid]')[0]->find('div[class=wp-block-kadence-column]') as $div) {
+			    $tmp = array();
+			    foreach($div->find('p') as $p) {
+			        $value = explode(" ", $p->plaintext);
+			        if(count($value) > 1) {
+			            $tmp[] = $this->getAmount($p->plaintext);
+			        } else {
+			            $tmp[] = $p->plaintext;
+			        }
+			    }
+			    $data[] = $tmp;
 			}
-			$data[] = $usdData;
-			$data[] = $euroData;
-			$data[] = $sgdData;
-			$data[] = $thbData;
+            // echo "Time " . $time . "<br>";
+            // echo json_encode($data);
 			$this->insertExchangeRate(
 				$data,
 				$this->bank_id[$this->kbz_bank]
 			);
-			return str_replace("Date - ","",$time);
+			return array(
+			    "time" => preg_split('/ /',$time)[2],
+			    "data" => $data
+            );
+		}
+		
+		private function getAmount($value) {
+		    $re = '/[\d]/m';
+		    preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0);
+		    $tmp = "";
+		    foreach($matches as $key => $value) {
+		        if($key > 3)
+		            $tmp .= $value[0];
+		    }
+		    return $tmp;
 		}
 
 		private function insertExchangeRate($data, $bank_id) {

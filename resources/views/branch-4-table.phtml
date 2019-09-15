@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Branch Input</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="shortcut icon" href="<?php echo $baseUrl; ?>/resources/img/mycurrency.png" type="img/png">
+		<meta name='description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။'>
+		<meta name='title' content='ဘဏ်ခွဲ | $ Exchange Rate'>
+		<meta name='og:title' content='ဘဏ်ခွဲ | $ Exchange Rate'/>
+		<meta property='og:image' content='https://kyawhtut.com/public/img/mmexchange-screen-shoot.png' />
+		<meta property='og:description' content='မြန်နိုင်ငံ ရှိ သက်ဆိုင်ရာ ဘဏ်များ၏ ဘဏ်ခွဲများ နှင့် ပတ်သက်ပြီး Information ဖြည့်စွက်ပေးရန်ဖြစ်ပါသည်။' />
+		<meta name='og:author' content='Kyaw Htut'/>
+		<meta name='og:image:alt' content='Kyaw Htut'/>
+		<meta property='og:url' content='https://kyawhtut.com/mmexchange/' />
+		<meta name='author' content='Kyaw Htut'>
+		<meta name="theme-color" content="#719e40">
+
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/4.3.1/bootstrap.min.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/datatables.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/style.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/dataTable.bootstrap.4.css">
+		<link rel="stylesheet" href="<?= $baseUrl; ?>/resources/css/font-awesome.css">
+	</head>
+	<body>	
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<a class="navbar-brand" href="<?= $baseUrl; ?>/branch-input">My Currency</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<div class="navbar-nav mr-auto mt-2 mt-lg-0"></div>
+				<ul class="navbar-nav my-2 my-lg-0">
+					<li class="nav-item"><a href="http://bit.ly/kh-mycurrency">Apk Download</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container pt-5 mt-4">
+			<div class="pb-3">
+				<h2 class="text-left subTitle">ဘဏ်ခွဲများ</h2>
+			</div>
+			<div class="table-responsive">
+				<table id="example" class="table table-hover table-dark w-100">
+			        <thead>
+			            <tr>
+			                <th>အမျိုးအစား</th>
+			                <th>ဘဏ်</th>
+			                <th>အမည်</th>
+			                <th>ဖုန်းနံပါတ်</th>
+			                <th>အကြောင်းအရာ</th>
+			                <th>တိုင်းဒေသကြီး</th>
+			                <th>မြို့နယ်</th>
+			                <th>ဓာတ်ပုံ</th>
+			                <th id="list-head-actions"><a class="btn btn-success btn-block list-action" href="<?= $baseUrl; ?>/branch-input/add"><i class="fa fa-plus"></i> Add</a></th>
+			            </tr>
+			        </thead>
+	    		</table>								
+			</div>
+			<div class="footer">
+				<div class="col-md-12 text-center">
+					<p>Developed by © <a href="https://kyawhtut.com/" target="_blank">Kyaw Htut</a></p>
+				</div>
+			</div>
+
+			<div class="modal fade bd-example-modal-sm" id="dialogDeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-sm" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Are you sure to delete?
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="dialogAccept" class="btn btn-outline-primary" data-dismiss="modal">Ok</button>
+							<button type="button" id="dialogCancel" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/4.3.1/bootstrap.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/jquery.dataTables.min.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/dataTable.bootstrap4.js"></script>
+		<script src="<?= $baseUrl; ?>/resources/js/popper.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				$('#dialogDeleteConfirm').on('show.bs.modal', function(event) {
+					var btn = $(event.relatedTarget);
+					var id = btn.data('id');
+					$(this).attr('data-id', id);
+					$(this).find('#dialogAccept').on('click', function(ev) {
+						var deleteUrl = "<?= $baseUrl; ?>/api/deleteBank?id=" + id;
+						deleteBank(deleteUrl);
+					})
+				}).on('hide.bs.modal', function(event) {
+					$(this).attr('data-id', '');
+					$(this).find('#dialogAccept').off('click');
+				})
+
+				function dataTableImageRenderer(route) {
+					return function(d, type, row) {
+						var imgUrl = row.bank_branch_image.replace(".",route);
+						var img = `<img src="${imgUrl}" width="35" height="35" alt=""/>`;
+						return img;
+					}
+				}
+
+				function bankNameRenderer(route) {
+					return function(d, type, row) {
+						$.get(route+"/api/v2/bank_table/"+row.bank_id, function(d) {
+							return d.bank_table[0].bank_name;
+						})
+					}
+				}
+
+				function typeRenderer() {
+					return function(d, type, row) {
+						var bankType = {
+							"atm" : "ATM",
+							"branch" : "ဘဏ်ခွဲ"
+						};
+						return bankType[row.bank_type];
+					}
+				}
+
+				function dataTableActionRenderer() {
+					return function(d, type, row) {
+						var btnEdit = '<a class="btn btn-primary btn-sm list-action mx-1 my-1" href="<?= $baseUrl; ?>/branch-input/edit/' + row.id + '">Edit</a>';
+						var btnDelete = '<a class="btn btn-danger btn-sm list-action" data-toggle="modal" data-target="#dialogDeleteConfirm" data-loading-text="Deleting ..." data-id="' + row.id + '" role="button" href="api/deleteBank/' + row.id + '">Delete</a>';
+						var html = btnDelete + btnEdit;
+						return html;
+					}
+				}
+
+				var table = $('#example').on('error.dt', function (e, settings, techNote, message) {
+					console.log( 'DataTables Error: ', message );
+					alert('Read data error!');
+				}).DataTable({
+					"lengthMenu": [[5, 10, 15, 20, 25, 50, -1], [5, 10, 15, 20, 25, 50, "အားလုံး"]],
+					"async": false,
+					"ajax": {
+						url : "<?= $baseUrl; ?>/api/v2/available_bank_location",
+						dataSrc : "available_bank_location"
+					},
+					"columns": [
+						{
+							"data" : "bank_type"
+						},
+						{
+							"data" : "bank_id"
+						},
+						{
+							"data" : "bank_branch_name"
+						},
+						{
+							"data" : "bank_branch_ph_no"
+						},
+						{
+							"data" : "bank_description"
+						},
+						{
+							"data" : "city_id"
+						},
+						{
+							"data" : "township_id"
+						},
+						{
+							"data": "bank_branch_image"
+						},
+						{
+							"data": "action"
+						}
+					],
+					"columnDefs": [
+						{
+							targets: 0,
+							render: typeRenderer()
+						},
+						{
+							targets: 7, 
+							orderable: false,
+							render: dataTableImageRenderer('<?= $baseUrl; ?>')
+						},
+						{
+							targets : 8,
+							orderable : false,
+							render: dataTableActionRenderer()
+						}
+					],
+					fnCreatedRow: function(nRow, aData, index) {
+						$.get("<?= $baseUrl; ?>/api/v2/bank_table/"+aData.bank_id, function(d) {
+							$('td:eq(1)', nRow).html(
+								d.bank_table[0].bank_name+""
+							);
+						})
+						$.get("<?= $baseUrl; ?>/api/v2/city/" + aData.city_id, function(d) {
+							$('td:eq(5)', nRow).html(
+								d.city[0].city
+							);
+						})
+						$.get("<?= $baseUrl; ?>/api/v2/township/" + aData.township_id, function(d) {
+							$('td:eq(6)', nRow).html(
+								d.township[0].township
+							);
+						})
+					}
+				});
+
+				function deleteBank(url) {
+					$.ajax({
+						url: url,
+						type: 'DELETE',
+						success: function(data) {
+							console.log(data);
+							if(data.message == "success") {
+								table.ajax.reload();
+							}
+						}
+					})
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,136 @@
+/*-- Custom Style Here --*/
+.kbz {
+	border-color: #0054a6;
+}
+
+.aya {
+	border-color: #aa2028;
+}
+
+.cb {
+	border-color: #fdb93f;
+}
+
+.mob {
+	border-color: #791218;
+}
+
+.agd {
+	border-color: #59b84a;
+}
+
+.uab {
+	border-color: #007538;
+}
+
+.panel-body {
+	text-align: right;
+	padding: 0px;
+	padding-top: 8px;
+	padding-right: 15px;
+}
+
+.logo {
+	height: 20px;
+	margin-right: 15px;
+}
+
+.bg-light {
+	background-color: #33475e!important;
+}
+.navbar-light .navbar-brand {
+	color: white;
+}
+.dropdown-item.active, .dropdown-item:active {
+	background-color: #33475e!important;
+	color: white;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: white;
+}
+.nav-item>a {
+	color: white;
+	text-align: start;
+	text-decoration: none;
+}
+.nav-item>a:hover {
+	color: #dddddd!important;
+	background-color:transparent
+}
+.navbar-light .navbar-toggler-icon {
+	background-image: url("data:image/svg+xml,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>")!important;
+}
+.navbar-light .navbar-toggler {
+	border-color: white;
+}
+.form-group>label {
+	color: black;
+	font-weight: 100;
+}
+.footer {
+	padding-top: 16px;
+	border-top: 1px solid #e0e0e0;
+}
+.subTitle {
+    color: #33475e;
+    font-size: 32px;
+}
+legend.scheduler-border {
+    width: inherit;
+    padding: 0 10px;
+    border-bottom: none;
+}
+fieldset.scheduler-border {
+	border: 1px groove rgba(255,255, 255, 0.5) !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	-webkit-box-shadow: 0px 0px 0px 0px #ddd;
+	box-shadow: 0px 0px 0px 0px #ddd;
+}
+
+.btn-convert {
+    color: #fff;
+    background-color: #33475e;
+    border-color: #33475e;
+}
+
+.btn-convert.disabled, .btn-convert:disabled {
+    color: #fff;
+    background-color: #33475e;
+    border-color: #33475e;
+}
+
+.vk_gy {
+    color: #878787 !important;
+}
+
+.dDoNo {
+    font-family: HelveticaNeue,Arial,'Noto Sans Myanmar UI',sans-serif;
+}
+
+.vk_bk {
+    color: #212121 !important;
+}
+
+.DFlfde {
+    word-break: break-all;
+}
+
+.vk_sh {
+    font-family: Roboto,HelveticaNeue,Arial,sans-serif;
+    font-weight: normal !important;
+    font-size: 16px !important;
+}
+
+.dDoNo {
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-size: 36px !important;
+    font-weight: normal !important;
+}
+
+.hqAUc {
+    color: #757575;
+    margin-top: 8px;
+    font-size: 12px;
+}

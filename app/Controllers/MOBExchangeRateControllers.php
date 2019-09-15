@@ -32,7 +32,10 @@
 				$data,
 				$this->bank_id[$this->mob_bank]
 			);
-            return $date;
+            return array(
+                "time" => $date,
+                "data" => $data
+            );
 		}
 
 		private function insertExchangeRate($data, $bank_id) {
